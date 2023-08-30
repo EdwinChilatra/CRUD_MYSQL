@@ -30,14 +30,35 @@ class CompanyView(View):
 
     def post(self, request):
         # print(request.body)
-        js = json.loads(request.body)
-        # print(js)
-        Company.objects.create(name=js['name'], website=js['website'], foundation=js['foundation'])
+        jd = json.loads(request.body)
+        # print(jd)
+        Company.objects.create(name=jd['name'], website=jd['website'], foundation=jd['foundation'])
         datos = {'message': 'Success'}
         return JsonResponse(datos)
 
-    def put(self, request):
-        pass
+    def put(self, request, id):
+        jd = json.loads(request.body)
+        companies = list(Company.objects.filter(id=id).values())
+        if (len(companies) >0 ):
+            company = Company.objects.get(id=id)
+            company.name = jd['name']
+            company.website = jd['website']
+            company.foundation = jd['foundation']
+            company.save()
 
-    def delete(self, request):
-        pass
+            datos = {'message': 'Success'}
+        else:
+            datos = {'message': 'companies not found...'}
+        
+        return JsonResponse(datos)
+
+    def delete(self, request, id):
+        companies = list (Company.objects.filter(id=id).values())
+        if (len(companies) > 0):
+            Company.objects.filter(id=id).delete()
+            datos = {'message': 'Success'}
+        else:
+            datos = {'message': 'company not found...'}
+        
+        return JsonResponse(datos)
+            
