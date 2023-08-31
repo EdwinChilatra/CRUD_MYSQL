@@ -27,15 +27,14 @@ class ApprenticeView(View):
                 datos = {'message': 'Apprentices not found...'}
         return JsonResponse(datos)
     
-    def post (self,request):
-    
-        jd = json.loads(request.body)
-        Aprendiz.objects.create(nombre=jd['nombre'], 
-                                apellido=jd['apellido'], 
-                                fecha_nacimiento=jd['fecha_nacimiento'], 
-                                numero_documento=jd['numero_documento'],
-                                tipo_documento=jd['tipo_document'], 
-                                numero_ficha=jd['numero_ficha'])
+    def post (self, request) :
+        js = json.loads(request.body)
+        Aprendiz.objects.create(nombre =js['nombre'], 
+                                apellido = js['apellido'], 
+                                fecha_nacimiento = js['fecha_nacimiento'], 
+                                numero_documento = js['numero_documento'], 
+                                tipo_documento = js['tipo_documento'], 
+                                numero_ficha = js['numero_ficha'])
         datos = {'message': 'Success'}
         return JsonResponse(datos)
     
@@ -44,12 +43,12 @@ class ApprenticeView(View):
         Apprentices = list(Aprendiz.objects.filter(id=id).values())
         if (len(Apprentices) > 0):
             aprendiz = Aprendiz.objects.get(id=id)
-            aprendiz.nombre=jd['nombre']
-            aprendiz.apellido=jd['apellido']
-            aprendiz.fecha_nacimiento=jd['fecha_nacimiento']
-            aprendiz.numero_documento=jd['numero_documento']
-            aprendiz.tipo_documento=jd['tipo_document']
-            aprendiz.numero_ficha=jd['numero_ficha']
+            aprendiz.nombre = jd['nombre']
+            aprendiz.apellido = jd['apellido']
+            aprendiz.fecha_nacimiento = jd['fecha_nacimiento']
+            aprendiz.numero_documento = jd['numero_documento']
+            aprendiz.tipo_documento = jd['tipo_documento']
+            aprendiz.numero_ficha = jd['numero_ficha']
             aprendiz.save()
 
             datos = {'message': 'Success'}
@@ -59,7 +58,7 @@ class ApprenticeView(View):
         return JsonResponse(datos)
 
     def delete(self, request, id):
-        Apprentices = list (Aprendiz.objects.filter(id=id).values())
+        Apprentices = list(Aprendiz.objects.filter(id=id).values())
         if (len(Apprentices) > 0):
             Aprendiz.objects.filter(id=id).delete()
             datos = {'message': 'Success'}
