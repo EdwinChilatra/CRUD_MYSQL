@@ -6,4 +6,4 @@ class Aprendiz(models.Model):
     fecha_nacimiento = models.DateField()
     numero_documento = models.CharField(max_length=10)
     tipo_documento = models.CharField(max_length=4)
-    numero_ficha =models.PositiveIntegerField(max_length= 10)
+    numero_ficha =models.IntegerField()

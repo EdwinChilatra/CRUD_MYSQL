@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'corsheaders',
     'api',
-    'api_aprendiz'
+    'api_aprendiz',
+    'api_pedidos',
 ]
 
 MIDDLEWARE = [
