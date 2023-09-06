@@ -1,6 +1,6 @@
 from django.http import JsonResponse
 from django.views import View
-from .models import Company
+from .models import Company, Developers
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 import json
@@ -62,3 +62,30 @@ class CompanyView(View):
         
         return JsonResponse(datos)
             
+class DeveloperView(View):
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+    
+    def get (self, request, id = 0):
+        if(id > 0):
+            developer = Developers.objects.get(id = id)
+            if developer:
+                datos = {'message': 'Success', 'companies': developer}
+            else:
+                datos = {'message': 'Company not found...'}
+        else:
+            developers = list(Developers.objects.values())
+            if (len(developers) > 0):
+                datos = {'message': 'Success', 'developers': developers}
+            else:
+                datos = {'message': 'Developers not found...'}
+
+        return JsonResponse (datos)
+    
+    def post(self, request):
+        jd = json.loads(request.body)
+        company = Company.objects.get(id = jd['company'])
+        Developers.objects.create(name=jd['name'], company=company)
+        datos = {'message': 'Success'}
+        return JsonResponse(datos)
