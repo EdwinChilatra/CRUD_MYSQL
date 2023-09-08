@@ -89,3 +89,26 @@ class DeveloperView(View):
         Developers.objects.create(name=jd['name'], company=company)
         datos = {'message': 'Success'}
         return JsonResponse(datos)
+     
+    def put(self, request, id):
+        jd = json.loads(request.body)
+        developers = list(Developers.objects.filter(id=id).values())
+        if (len(developers) >0 ):
+            developer = Developers.objects.get(id=id)
+            company = Company.objects.get(id =jd ['company'])
+            developer.name = jd['name']
+            developer.company = company
+            developer.save()
+            datos = {'message': 'Success'}
+        else:
+            datos = {'message': 'Developers not found...'}
+        return JsonResponse(datos)
+    
+    def delete(self, request, id):
+        developers = list(Developers.objects.filter(id=id).values())
+        if len(developers) > 0:
+            Developers.objects.filter(id=id).delete()
+            datos = {'message': 'Success'}
+        else:
+            datos = {'message': 'Developer not found...'}
+        return JsonResponse(datos)
